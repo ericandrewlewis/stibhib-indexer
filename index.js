@@ -24,5 +24,10 @@ const puppeteer = require('puppeteer');
     });
     return data
   });
-  console.log(ticketSalesData);
+  const fileBuffer = await fs.readFile('data.json');
+  const data = JSON.parse(fileBuffer);
+  data[new Date().toUTCString()] = ticketSalesData;
+  await fs.writeFile('data.json', JSON.stringify(data, null, 2));
+  console.log('wrote to file');
+  await browser.close();
 })();
